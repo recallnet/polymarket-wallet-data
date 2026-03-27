@@ -1,0 +1,111 @@
+{
+  "name": "polymarket-wallet-data",
+  "id": "recallnet/polymarket-wallet-data",
+  "title": "Polymarket Wallet On-Chain Activity",
+  "description": "On-chain USDC and CTF (Conditional Token Framework) transfer data for 99 active Polymarket wallets on Polygon. Covers USDC flows (deposits, withdrawals, exchange interactions) and CTF token movements (trades, redemptions, merges/splits). Includes PnL rankings and strategy analysis.",
+  "version": "0.1.0",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Attribution 4.0 International"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Polygon PoS chain (USDC Transfer events via Polygonscan/RPC)",
+      "path": "https://polygonscan.com/"
+    },
+    {
+      "title": "Polymarket CTF Exchange contracts on Polygon",
+      "path": "https://polygonscan.com/address/0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"
+    }
+  ],
+  "resources": [
+    {
+      "name": "usdc-transfers",
+      "path": "data/2026-03-27/usdc_transfers/",
+      "format": "parquet",
+      "mediatype": "application/vnd.apache.parquet",
+      "description": "USDC transfer events for 99 wallets on Polygon. ~30M rows total. One parquet file per wallet address. Covers native USDC and PoS-bridged USDC.",
+      "schema": {
+        "fields": [
+          {"name": "wallet", "type": "string", "description": "Target wallet address being tracked"},
+          {"name": "block_number", "type": "integer", "description": "Polygon block number"},
+          {"name": "timestamp", "type": "string", "description": "ISO 8601 timestamp"},
+          {"name": "tx_hash", "type": "string", "description": "Transaction hash"},
+          {"name": "from_addr", "type": "string", "description": "Sender address"},
+          {"name": "to_addr", "type": "string", "description": "Receiver address"},
+          {"name": "usdc_amount", "type": "number", "description": "USDC amount (6-decimal adjusted)"},
+          {"name": "flow_type", "type": "string", "description": "Direction relative to wallet: 'in' or 'out'"},
+          {"name": "from_label", "type": "string", "description": "Label for sender (e.g. 'external', known contract name)"},
+          {"name": "to_label", "type": "string", "description": "Label for receiver"},
+          {"name": "usdc_contract", "type": "string", "description": "Which USDC contract: 'native' or 'pos'"}
+        ]
+      }
+    },
+    {
+      "name": "ctf-transfers",
+      "path": "data/2026-03-27/ctf_transfers/",
+      "format": "parquet",
+      "mediatype": "application/vnd.apache.parquet",
+      "description": "CTF (Conditional Token Framework) ERC-1155 transfer events for 129 wallets. ~17M rows total. One parquet file per wallet address. Covers trades, redemptions, merges, and splits.",
+      "schema": {
+        "fields": [
+          {"name": "wallet", "type": "string", "description": "Target wallet address being tracked"},
+          {"name": "block_number", "type": "integer", "description": "Polygon block number"},
+          {"name": "timestamp", "type": "string", "description": "ISO 8601 timestamp"},
+          {"name": "tx_hash", "type": "string", "description": "Transaction hash"},
+          {"name": "event_type", "type": "string", "description": "Type of CTF event: trade_in, trade_out, redeem, merge, split, etc."},
+          {"name": "token_id", "type": "string", "description": "ERC-1155 token ID (maps to a specific market outcome)"},
+          {"name": "amount", "type": "number", "description": "Token amount transferred"},
+          {"name": "direction", "type": "string", "description": "Transfer direction: 'to' (received) or 'from' (sent)"},
+          {"name": "from_addr", "type": "string", "description": "Sender address"},
+          {"name": "to_addr", "type": "string", "description": "Receiver address"}
+        ]
+      }
+    },
+    {
+      "name": "deep-drill",
+      "path": "data/2026-03-27/deep_drill/",
+      "format": "json",
+      "mediatype": "application/json",
+      "description": "Deep-dive USDC flow analysis for 8 selected wallets. JSON files with detailed transaction-level breakdown."
+    },
+    {
+      "name": "pnl-rankings",
+      "path": "data/2026-03-27/pnl_rankings.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "description": "PnL rankings for tracked wallets based on realized and unrealized profits."
+    },
+    {
+      "name": "strategy-analysis",
+      "path": "data/2026-03-27/strategy_analysis.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "description": "Strategy classification and analysis for tracked wallets."
+    },
+    {
+      "name": "market-makers",
+      "path": "data/2026-03-27/market_makers.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "description": "Identified market maker wallets and their activity patterns."
+    },
+    {
+      "name": "target-wallets",
+      "path": "data/2026-03-27/new_target_wallets.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "description": "List of 99 target wallet addresses selected for analysis."
+    },
+    {
+      "name": "resolutions",
+      "path": "data/2026-03-27/resolutions.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "description": "Market resolution data used for PnL calculations."
+    }
+  ]
+}

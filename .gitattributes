@@ -1,0 +1,16 @@
+# Track all files inside date-stamped data folders with Git LFS
+data/**/*.csv filter=lfs diff=lfs merge=lfs -text
+data/**/*.tsv filter=lfs diff=lfs merge=lfs -text
+data/**/*.json filter=lfs diff=lfs merge=lfs -text
+data/**/*.jsonl filter=lfs diff=lfs merge=lfs -text
+data/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/**/*.arrow filter=lfs diff=lfs merge=lfs -text
+data/**/*.avro filter=lfs diff=lfs merge=lfs -text
+data/**/*.xlsx filter=lfs diff=lfs merge=lfs -text
+data/**/*.xls filter=lfs diff=lfs merge=lfs -text
+data/**/*.sqlite filter=lfs diff=lfs merge=lfs -text
+data/**/*.db filter=lfs diff=lfs merge=lfs -text
+data/**/*.gz filter=lfs diff=lfs merge=lfs -text
+data/**/*.zip filter=lfs diff=lfs merge=lfs -text
+data/**/*.tar filter=lfs diff=lfs merge=lfs -text
+data/**/*.bz2 filter=lfs diff=lfs merge=lfs -text
